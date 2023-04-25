@@ -15,11 +15,11 @@ type Product struct {
 	ID           int64     `gorm:"type:bigint(20) NOT NULL auto_increment;primary_key;" json:"id,omitempty"`
 	Name         string    `gorm:"index:idx_name,unique" json:"name,omitempty" `
 	Price        int32     `json:"price,omitempty" gorm:"column:price"`
-	Weight       float64   `json:"weight,omitempty" gorm:"type:decimal(10,4)"`
+	Weight       float64   `json:"weight,omitempty" gorm:"type:decimal(10,2)"`
 	Ticket       int32     `json:"ticket,omitempty" gorm:"column:ticket"`
 	Freight      int32     `json:"freight,omitempty" gorm:"column:freight"`
 	Fare         int32     `json:"fare,omitempty" gorm:"column:fare"`
-	ExchangeRate float64   `json:"exchange_rate,omitempty" gorm:"type:decimal(10,4)"`
+	ExchangeRate float64   `json:"exchange_rate,omitempty" gorm:"type:decimal(10,2)"`
 	Profit       int32     `json:"profit,omitempty" gorm:"column:profit"`
 	Status       int32     `gorm:"type:int(1);" json:"status,omitempty"`
 	CreatedAt    time.Time `gorm:"type:timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP" json:"created_at,omitempty"`

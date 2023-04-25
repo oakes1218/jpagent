@@ -34,7 +34,7 @@ func init() {
 
 func main() {
 	WaitShutdown(func() {
-		// time.Sleep(3 * time.Second)
+		time.Sleep(3 * time.Second)
 	})
 	httpServer()
 }
