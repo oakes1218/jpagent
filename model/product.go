@@ -75,6 +75,9 @@ func UpdateQuote(p *Product) error {
 	if p.Fare != 0 {
 		updateDate["fare"] = p.Fare
 	}
+	if p.People != 0 {
+		updateDate["people"] = p.People
+	}
 	if p.Status != 0 {
 		updateDate["status"] = p.Status
 	}
