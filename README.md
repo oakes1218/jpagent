@@ -3,8 +3,8 @@
 #### 新增
 ```
 [POST] /insert
-必填 name price weight
-參數 {"name":"bbbb","price":100,"weight":20,"tiket":0,"freight":0,"fare":0,"people":1,"status":0,"profit":10}
+必填 name price weight (status 0, 1 若選 1 remark 必填)
+參數 {"name":"bbbb","price":100,"weight":20,"tiket":0,"freight":0,"fare":0,"people":1,"status":0,"profit":10, "note":"note", "remark": "remark"}
 ```
 
 #### Response
@@ -87,8 +87,8 @@
 #### 更新
 ```
 [PUT] /update
-必填 id
-參數 {"id": 1,"name":"bbbb","price":100,"weight":20,"tiket":0,"freight":0,"fare":0,"people":1,"status":0, "exchange_rate": 0.23,"profit":10}
+必填 id (status 0, 1 若選 1 remark 必填)
+參數 {"id": 1,"name":"bbbb","price":100,"weight":20,"tiket":0,"freight":0,"fare":0,"people":1,"status":0, "exchange_rate": 0.23,"profit":10, "note":"note", "remark": "remark"}
 ```
 
 #### Response

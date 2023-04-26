@@ -23,6 +23,8 @@ type Product struct {
 	ExchangeRate float64   `json:"exchange_rate,omitempty" gorm:"type:decimal(10,2)"`
 	Profit       int32     `gorm:"unique_index:name_p" json:"profit,omitempty"`
 	Status       int32     `gorm:"type:int(1);" json:"status,omitempty"`
+	Remark       string    `gorm:"varchar(255);" json:"remark,omitempty"`
+	Note         string    `gorm:"varchar(255);" json:"note,omitempty"`
 	CreatedAt    time.Time `gorm:"type:timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP" json:"created_at,omitempty"`
 	UpdatedAt    time.Time `gorm:"type:timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP" json:"updated_at,omitempty"`
 }

@@ -7,6 +7,7 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/shopspring/decimal"
 )
 
 const ERROR_CODE = 100001
@@ -46,6 +47,22 @@ func CreateQuote(c *gin.Context) {
 	})
 }
 
+/**
+
+報價 = 日幣 * 營收比%
+成本 = (日幣 * 代購費10% * 匯率) ＋ 運費
+運費 = 重量 ＊ 單位價
+利潤 = 報價 - 成本
+
+**/
+
+func Multiply(a int32) int32 {
+	ad := decimal.NewFromFloat(float64(a))
+	bd := decimal.NewFromFloat(1.1) //固定10%
+	res := ad.Mul(bd).IntPart()
+	return int32(res)
+}
+
 func GetQuote(c *gin.Context) {
 	name := c.Query("name")
 	pOffset := c.Query("offset")
@@ -74,11 +91,12 @@ func GetQuote(c *gin.Context) {
 
 	sData := make([]interface{}, 0)
 	reslut := make(map[string][]interface{})
+	// cost := make()
 	for _, v := range data {
 		res := model.Product{
 			ID:           v.ID,
 			Name:         v.Name,
-			Price:        v.Price,
+			Price:        Multiply(v.Price),
 			Weight:       v.Weight,
 			Ticket:       v.Ticket,
 			Freight:      v.Freight,
