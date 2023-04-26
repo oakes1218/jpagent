@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	jplog "jpagent/log"
 	"jpagent/model"
 	"log"
 	"net/http"
@@ -30,6 +31,8 @@ func init() {
 	}
 	//建立mysql pool
 	model.ProductM = mysqlConn()
+	//初始log框架
+	jplog.LogInit()
 }
 
 func main() {
@@ -46,7 +49,6 @@ func WaitShutdown(callback func()) context.Context {
 
 	go func() {
 		signal.Notify(c, syscall.SIGHUP, syscall.SIGINT, syscall.SIGQUIT, syscall.SIGTERM)
-
 		defer signal.Stop(c)
 
 		<-c
