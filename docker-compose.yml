@@ -3,6 +3,8 @@ version: '3.1'
 services:
   db:
     image: mysql:5.7
+    platform: linux/amd64/v8
+    container_name: mysql
     volumes:
       - db_data:/var/lib/mysql
     restart: always
@@ -31,18 +33,13 @@ services:
   jpagent:
     image: jpagent:v1
     restart: always
-    environment:
-      JP_MYSQL_HOST: db
-      JP_MYSQL_PORT: 3306
-      JP_MYSQL_DATABASE: product
-      JP_MYSQL_USER: root
-      JP_MYSQL_PASSWORD: "password"
-      JP_SERVER_PORT: ":8989"
     ports:
       - 8888:8989
     depends_on:
       - db
       - phpmyadmin
+    networks:
+      - mysql-phpmyadmin
 
 networks:
   mysql-phpmyadmin:
