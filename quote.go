@@ -83,6 +83,7 @@ func GetQuote(c *gin.Context) {
 			Ticket:       v.Ticket,
 			Freight:      v.Freight,
 			Fare:         v.Fare,
+			People:       v.People,
 			Status:       v.Status,
 			ExchangeRate: v.ExchangeRate,
 			Profit:       v.Profit,

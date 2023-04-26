@@ -19,6 +19,7 @@ type Product struct {
 	Ticket       int32     `json:"ticket,omitempty" gorm:"column:ticket"`
 	Freight      int32     `json:"freight,omitempty" gorm:"column:freight"`
 	Fare         int32     `json:"fare,omitempty" gorm:"column:fare"`
+	People       int32     `json:"people,omitempty" gorm:"column:people"`
 	ExchangeRate float64   `json:"exchange_rate,omitempty" gorm:"type:decimal(10,2)"`
 	Profit       int32     `gorm:"unique_index:name_p" json:"profit,omitempty"`
 	Status       int32     `gorm:"type:int(1);" json:"status,omitempty"`

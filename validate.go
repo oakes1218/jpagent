@@ -24,7 +24,8 @@ func InsertValidate(data []byte) (*model.Product, error) {
 		Ticket  int32   `validate:"numeric"`
 		Freight int32   `validate:"numeric"`
 		Fare    int32   `validate:"numeric"`
-		status  int32   `validate:"numeric"`
+		People  int32   `validate:"numeric"`
+		Status  int32   `validate:"numeric,len=1,lt=1,gt=0"`
 		Profit  int32   `validate:"numeric,required"`
 	}{
 		Name:    p.Name,
@@ -33,7 +34,8 @@ func InsertValidate(data []byte) (*model.Product, error) {
 		Ticket:  p.Ticket,
 		Freight: p.Freight,
 		Fare:    p.Fare,
-		status:  p.Status,
+		People:  p.People,
+		Status:  p.Status,
 		Profit:  p.Profit,
 	}
 
@@ -57,7 +59,8 @@ func UpdateValidate(data []byte) (*model.Product, error) {
 		Ticket       int32   `validate:"numeric"`
 		Freight      int32   `validate:"numeric"`
 		Fare         int32   `validate:"numeric"`
-		status       int32   `validate:"numeric"`
+		People       int32   `validate:"numeric"`
+		status       int32   `validate:"numeric,len=1,lt=1,gt=0"`
 		ExchangeRate float64 `validate:"numeric"`
 		Profit       int32   `validate:"numeric"`
 	}{
@@ -66,6 +69,7 @@ func UpdateValidate(data []byte) (*model.Product, error) {
 		Ticket:       p.Ticket,
 		Freight:      p.Freight,
 		Fare:         p.Fare,
+		People:       p.People,
 		status:       p.Status,
 		ExchangeRate: p.ExchangeRate,
 		Profit:       p.Profit,
