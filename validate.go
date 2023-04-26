@@ -25,7 +25,7 @@ func InsertValidate(data []byte) (*model.Product, error) {
 		Freight int32   `validate:"numeric"`
 		Fare    int32   `validate:"numeric"`
 		People  int32   `validate:"numeric"`
-		Status  int32   `validate:"numeric,len=1,lt=1,gt=0"`
+		Status  int32   `validate:"numeric,min=0,max=1"`
 		Profit  int32   `validate:"numeric,required"`
 	}{
 		Name:    p.Name,
@@ -60,7 +60,7 @@ func UpdateValidate(data []byte) (*model.Product, error) {
 		Freight      int32   `validate:"numeric"`
 		Fare         int32   `validate:"numeric"`
 		People       int32   `validate:"numeric"`
-		status       int32   `validate:"numeric,len=1,lt=1,gt=0"`
+		status       int32   `validate:"numeric,min=0,max=1"`
 		ExchangeRate float64 `validate:"numeric"`
 		Profit       int32   `validate:"numeric"`
 	}{
