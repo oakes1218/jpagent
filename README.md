@@ -4,7 +4,7 @@
 ```
 [POST] /insert
 必填 name price weight
-參數 {"name":"bbbb","price":100,"weight":20,"tiket":0,"freight":0,"fare":0,"status":0, "exchange_rate": 0.23,"profit":10}
+參數 {"name":"bbbb","price":100,"weight":20,"tiket":0,"freight":0,"fare":0,"status":0,"profit":10}
 ```
 
 #### Response
