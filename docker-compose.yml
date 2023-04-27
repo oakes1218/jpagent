@@ -31,7 +31,7 @@ services:
       - mysql-phpmyadmin
 
   jpagent:
-    image: jpagent:v1
+    image: oakes1218/jpagent:v1
     restart: always
     ports:
       - 8888:8989
