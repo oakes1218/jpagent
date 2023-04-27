@@ -107,7 +107,7 @@ func GetQuote(c *gin.Context) {
 		//報價 = 日幣 * 營收比%
 		quote := Multiply(Multiply(v.Price, (1+Div(v.Profit, 100))), v.ExchangeRate)
 		//成本 = (日幣 * 代購費10% * 匯率) ＋ 運費
-		cost := Multiply(Multiply(v.Price, 0), v.ExchangeRate) + v.Freight
+		cost := Multiply(Multiply(v.Price, 0)+v.Freight, v.ExchangeRate)
 		//利潤 = 報價 - 成本
 		profit := quote - cost
 
