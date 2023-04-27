@@ -61,18 +61,18 @@ func UpdateQuote(p *Product) error {
 	if p.ID == 0 {
 		return errors.New("ID 有誤")
 	}
-
+	if p.Name != "" {
+		updateDate["name"] = p.Name
+	}
 	if p.Price != 0 {
 		updateDate["price"] = p.Price
 	}
 	if p.Weight != 0 {
 		updateDate["weight"] = p.Weight
+		updateDate["freight"] = p.Freight
 	}
 	if p.Ticket != 0 {
 		updateDate["Ticket"] = p.Ticket
-	}
-	if p.Freight != 0 {
-		updateDate["freight"] = p.Freight
 	}
 	if p.Fare != 0 {
 		updateDate["fare"] = p.Fare

@@ -37,7 +37,12 @@ func init() {
 
 func main() {
 	WaitShutdown(func() {
-		time.Sleep(3 * time.Second)
+		if err := model.ProductM.Close(); err != nil {
+			log.Println(err)
+			return
+		}
+
+		// time.Sleep(3 * time.Second)
 	})
 	httpServer()
 }
