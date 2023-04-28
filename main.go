@@ -23,16 +23,16 @@ var Validate *validator.Validate = validator.New()
 var Val *Config
 
 type Config struct {
-	ServerPort          string `json:"SERVER_PORT"`
-	MysqlHost           string `json:"MYSQL_HOST"`
-	MysqlPort           int    `json:"MYSQL_PORT"`
-	MysqlUser           string `json:"MYSQL_USER"`
-	MysqlPassword       string `json:"MYSQL_PASSWORD"`
-	MysqlMaxidle        int    `json:"MYSQL_MAXIDLE"`
-	MysqlMaxconn        int    `json:"MYSQL_MAXCONN"`
-	MysqlConnMaxLifeTim int    `json:"MYSQL_CONNMAXLIFETTIME"`
-	MysqlSingularTable  bool   `json:"MYSQL_SINGULARTABLE"`
-	MysqlLogMode        bool   `json:"MYSQL_LOGMODE"`
+	ServerPort          string `mapstructure:"SERVER_PORT" json:"SERVER_PORT"`
+	MysqlHost           string `mapstructure:"MYSQL_HOST" json:"MYSQL_HOST"`
+	MysqlPort           int    `mapstructure:"MYSQL_PORT" json:"MYSQL_PORT"`
+	MysqlUser           string `mapstructure:"MYSQL_USER" json:"MYSQL_USER"`
+	MysqlPassword       string `mapstructure:"MYSQL_PASSWORD" json:"MYSQL_PASSWORD"`
+	MysqlMaxidle        int    `mapstructure:"MYSQL_MAXIDLE" json:"MYSQL_MAXIDLE"`
+	MysqlMaxconn        int    `mapstructure:"MYSQL_MAXCONN" json:"MYSQL_MAXCONN"`
+	MysqlConnMaxLifeTim int    `mapstructure:"MYSQL_CONNMAXLIFETTIME" json:"MYSQL_CONNMAXLIFETTIME"`
+	MysqlSingularTable  bool   `mapstructure:"MYSQL_SINGULARTABLE" json:"MYSQL_SINGULARTABLE"`
+	MysqlLogMode        bool   `mapstructure:"MYSQL_LOGMODE" json:"MYSQL_LOGMODE"`
 }
 
 func init() {
@@ -110,7 +110,7 @@ func httpServer() {
 	prefix.GET("/", GetQuote)
 	prefix.DELETE("/:id", DeleteQuote)
 	prefix.PUT("/update", UpdateQuote)
-	r.Run(string(fmt.Sprintf("%v", viper.Get("JP_SERVER_PORT"))))
+	r.Run(string(fmt.Sprintf("%v", viper.Get("SERVER_PORT"))))
 }
 
 func Pong(c *gin.Context) {
@@ -122,17 +122,17 @@ func MiddleValid(c *gin.Context) {
 }
 
 func mysqlConn() *gorm.DB {
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8&parseTime=true", viper.Get("JP_MYSQL_USER"), viper.Get("JP_MYSQL_PASSWORD"), viper.Get("JP_MYSQL_HOST"), viper.Get("JP_MYSQL_PORT"), viper.Get("JP_MYSQL_DATABASE"))
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%v)/%s?charset=utf8&parseTime=true", viper.Get("MYSQL_USER"), viper.Get("MYSQL_PASSWORD"), viper.Get("MYSQL_HOST"), viper.Get("MYSQL_PORT"), viper.Get("MYSQL_DATABASE"))
 	conn, err := gorm.Open("mysql", dsn)
 	if err != nil {
 		panic(err)
 	}
 
-	conn.DB().SetMaxIdleConns(viper.GetInt("JP_MYSQL_MAXIDLE"))
-	conn.DB().SetMaxOpenConns(viper.GetInt("JP_MYSQL_MAXCONN"))
-	conn.DB().SetConnMaxLifetime(time.Duration(viper.GetInt("JP_MYSQL_CONNMAXLIFETTIME")) * time.Second)
-	conn.SingularTable(viper.GetBool("JP_MYSQL_SINGULARTABLE"))
-	conn.LogMode(viper.GetBool("JP_MYSQL_LOGMODE"))
+	conn.DB().SetMaxIdleConns(viper.GetInt("MYSQL_MAXIDLE"))
+	conn.DB().SetMaxOpenConns(viper.GetInt("MYSQL_MAXCONN"))
+	conn.DB().SetConnMaxLifetime(time.Duration(viper.GetInt("MYSQL_CONNMAXLIFETTIME")) * time.Second)
+	conn.SingularTable(viper.GetBool("MYSQL_SINGULARTABLE"))
+	conn.LogMode(viper.GetBool("MYSQL_LOGMODE"))
 	conn.AutoMigrate(&model.Product{})
 
 	return conn
