@@ -3,11 +3,7 @@ package model
 import (
 	"errors"
 	"time"
-
-	"github.com/jinzhu/gorm"
 )
-
-var ProductM *gorm.DB
 
 const ProductTable = "product"
 
@@ -29,17 +25,17 @@ type Product struct {
 	UpdatedAt    time.Time `gorm:"type:timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP" json:"updated_at,omitempty"`
 }
 
-func CreateQuote(p *Product) error {
-	res := ProductM.Table(ProductTable).Create(&p)
+func (c *MysqlInit) CreateQuote(p *Product) error {
+	res := c.ProductM.Table(ProductTable).Create(&p)
 	return res.Error
 }
 
-func GetQuote(name string, offset int) ([]Product, error) {
+func (c *MysqlInit) GetQuote(name string, offset int) ([]Product, error) {
 	var data []Product
 	//先寫死分頁數量
 	limit := 10
 	offset = offset * 10
-	res := ProductM.Table(ProductTable).
+	res := c.ProductM.Table(ProductTable).
 		Where("name like ?", "%"+name+"%").
 		Offset(offset).
 		Limit(limit).
@@ -48,15 +44,15 @@ func GetQuote(name string, offset int) ([]Product, error) {
 	return data, res.Error
 }
 
-func DeleteQuote(id int64) error {
-	res := ProductM.Table(ProductTable).
+func (c *MysqlInit) DeleteQuote(id int64) error {
+	res := c.ProductM.Table(ProductTable).
 		Where("id = ?", id).
 		Delete(&Product{})
 
 	return res.Error
 }
 
-func UpdateQuote(p *Product) error {
+func (c *MysqlInit) UpdateQuote(p *Product) error {
 	updateDate := make(map[string]interface{})
 	if p.ID == 0 {
 		return errors.New("ID 有誤")
@@ -87,7 +83,15 @@ func UpdateQuote(p *Product) error {
 		updateDate["profit"] = p.Profit
 	}
 
-	res := ProductM.Model(&Product{}).Where("id = ?", p.ID).Update(updateDate)
+	res := c.ProductM.Model(&Product{}).Where("id = ?", p.ID).Update(updateDate)
 
 	return res.Error
+}
+
+func (c *MysqlInit) Close() error {
+	if err := c.ProductM.Close(); err != nil {
+		return err
+	}
+
+	return nil
 }

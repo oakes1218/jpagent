@@ -33,7 +33,7 @@ func CreateQuote(c *gin.Context) {
 		return
 	}
 
-	if err := model.CreateQuote(p); err != nil {
+	if err := model.Conn.CreateQuote(p); err != nil {
 		log.Println("CreateQuote func", err)
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error_code": ERROR_CODE,
@@ -72,7 +72,7 @@ func GetQuote(c *gin.Context) {
 		return
 	}
 
-	data, err := model.GetQuote(name, offset)
+	data, err := model.Conn.GetQuote(name, offset)
 	if err != nil {
 		log.Println("GetQuote func", err)
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -138,7 +138,7 @@ func DeleteQuote(c *gin.Context) {
 		return
 	}
 
-	if err := model.DeleteQuote(id); err != nil {
+	if err := model.Conn.DeleteQuote(id); err != nil {
 		log.Println("DeleteQuote func", err)
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error_code": ERROR_CODE,
@@ -173,7 +173,7 @@ func UpdateQuote(c *gin.Context) {
 		return
 	}
 
-	if err := model.UpdateQuote(p); err != nil {
+	if err := model.Conn.UpdateQuote(p); err != nil {
 		log.Println("UpdateQuote func", err)
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error_code": ERROR_CODE,

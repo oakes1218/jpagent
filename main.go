@@ -10,12 +10,10 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
-	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/jinzhu/gorm"
 	"github.com/spf13/viper"
 )
 
@@ -56,14 +54,14 @@ func init() {
 	log.Println("ENV:", Val)
 	log.Println("Cofing 設定成功")
 	//建立mysql pool
-	model.ProductM = mysqlConn()
+	model.NewMysql()
 	//初始log框架
 	jplog.LogInit()
 }
 
 func main() {
 	WaitShutdown(func() {
-		if err := model.ProductM.Close(); err != nil {
+		if err := model.Conn.Close(); err != nil {
 			log.Println(err)
 			return
 		}
@@ -119,21 +117,4 @@ func Pong(c *gin.Context) {
 
 func MiddleValid(c *gin.Context) {
 	c.Next()
-}
-
-func mysqlConn() *gorm.DB {
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%v)/%s?charset=utf8&parseTime=true", viper.Get("MYSQL_USER"), viper.Get("MYSQL_PASSWORD"), viper.Get("MYSQL_HOST"), viper.Get("MYSQL_PORT"), viper.Get("MYSQL_DATABASE"))
-	conn, err := gorm.Open("mysql", dsn)
-	if err != nil {
-		panic(err)
-	}
-
-	conn.DB().SetMaxIdleConns(viper.GetInt("MYSQL_MAXIDLE"))
-	conn.DB().SetMaxOpenConns(viper.GetInt("MYSQL_MAXCONN"))
-	conn.DB().SetConnMaxLifetime(time.Duration(viper.GetInt("MYSQL_CONNMAXLIFETTIME")) * time.Second)
-	conn.SingularTable(viper.GetBool("MYSQL_SINGULARTABLE"))
-	conn.LogMode(viper.GetBool("MYSQL_LOGMODE"))
-	conn.AutoMigrate(&model.Product{})
-
-	return conn
 }
