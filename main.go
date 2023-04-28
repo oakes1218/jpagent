@@ -10,6 +10,7 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
@@ -66,7 +67,8 @@ func main() {
 			return
 		}
 
-		// time.Sleep(3 * time.Second)
+		log.Println("3秒後服務停止")
+		time.Sleep(3 * time.Second)
 	})
 	httpServer()
 }
