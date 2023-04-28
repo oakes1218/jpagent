@@ -20,8 +20,26 @@ import (
 )
 
 var Validate *validator.Validate = validator.New()
+var Val *Config
+
+type Config struct {
+	ServerPort          string `json:"SERVER_PORT"`
+	MysqlHost           string `json:"MYSQL_HOST"`
+	MysqlPort           int    `json:"MYSQL_PORT"`
+	MysqlUser           string `json:"MYSQL_USER"`
+	MysqlPassword       string `json:"MYSQL_PASSWORD"`
+	MysqlMaxidle        int    `json:"MYSQL_MAXIDLE"`
+	MysqlMaxconn        int    `json:"MYSQL_MAXCONN"`
+	MysqlConnMaxLifeTim int    `json:"MYSQL_CONNMAXLIFETTIME"`
+	MysqlSingularTable  bool   `json:"MYSQL_SINGULARTABLE"`
+	MysqlLogMode        bool   `json:"MYSQL_LOGMODE"`
+}
 
 func init() {
+	//讀取還近變數
+	viper.AutomaticEnv()
+	viper.SetEnvPrefix("JP")
+
 	//取設定黨
 	viper.SetConfigType("yaml")
 	viper.SetConfigName("config")
@@ -29,6 +47,14 @@ func init() {
 	if err := viper.ReadInConfig(); err != nil {
 		panic(err)
 	}
+
+	err := viper.Unmarshal(&Val)
+	if err != nil {
+		panic(err)
+	}
+
+	log.Println("ENV:", Val)
+	log.Println("Cofing 設定成功")
 	//建立mysql pool
 	model.ProductM = mysqlConn()
 	//初始log框架

@@ -35,6 +35,18 @@ services:
     restart: always
     ports:
       - 8888:8989
+    environment:
+      JP_MYSQL_HOST: 127.0.0.1
+      JP_MYSQL_PORT: 3306
+      JP_MYSQL_DATABASE: product
+      JP_MYSQL_USER: root
+      JP_MYSQL_PASSWORD: "password"
+      JP_SERVER_PORT: ":8989"
+      JP_MYSQL_MAXIDLE: 10
+      JP_MYSQL_MAXCONN: 100
+      JP_MYSQL_CONNMAXLIFETTIME: 30
+      JP_MYSQL_SINGULARTABLE: true
+      JP_MYSQL_LOGMODE: true
     depends_on:
       - db
       - phpmyadmin
