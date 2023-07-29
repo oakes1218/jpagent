@@ -51,7 +51,7 @@ func (c *MysqlInit) DeleteQuote(id int64) error {
 
 	return res.Error
 }
-
+// UpdateQuote UpdateQuote
 func (c *MysqlInit) UpdateQuote(p *Product) error {
 	updateDate := make(map[string]interface{})
 	if p.ID == 0 {
